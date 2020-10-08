@@ -1,0 +1,15 @@
+libraries/Ethernet/examples/ libraries/Communications/arduino/Ethernet
+libraries/Ethernet/keywords.txt libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/Dhcp.cpp libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/Dhcp.h libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/Dns.cpp libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/Dns.h libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/Ethernet.cpp libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/Ethernet.h libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/EthernetClient.cpp libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/EthernetClient.h libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/EthernetServer.cpp libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/EthernetServer.h libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/EthernetUdp.cpp libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/EthernetUdp.h libraries/Communications/arduino/Ethernet
+libraries/Ethernet/src/utility/ libraries/Communications/arduino/Ethernet

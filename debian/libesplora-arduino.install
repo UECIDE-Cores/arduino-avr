@@ -1,0 +1,4 @@
+libraries/Esplora/examples/ libraries/BoardSupport/arduino/Esplora
+libraries/Esplora/keywords.txt libraries/BoardSupport/arduino/Esplora
+libraries/Esplora/src/Esplora.cpp libraries/BoardSupport/arduino/Esplora
+libraries/Esplora/src/Esplora.h libraries/BoardSupport/arduino/Esplora

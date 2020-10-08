@@ -1,0 +1,70 @@
+Source: arduino
+Section: main
+XBSC-Family: avr
+Priority: extra
+Maintainer: Matt Jenkins <matt@majenko.co.uk>
+XBSC-TieCore: arduino
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: http://arduino.cc
+
+Package: arduino
+Architecture: all
+XBSC-Group: Cores
+XBSC-SubGroup: Arduino
+Depends: avr-gcc, avrdude-arduino
+Recommends: libeeprom-arduino, libhid-arduino, libsoftwareserial-arduino, libspi-arduino, libwire-arduino
+Description: Arduino 1.8.9
+ The standard Arduino core for AVR boards
+
+
+Package: libeeprom-arduino
+Architecture: all
+XBSC-Group: Libraries
+XBSC-SubGroup: Storage
+XBSC-SubSubgroup: EEPROM
+Depends: arduino
+Provides: EEPROM.h
+Description: Arduino EEPROM Library
+ Store small amounts of data in the EEPROM non-volatile memory of the
+ AVR microcontrollers.
+
+Package: libhid-arduino
+Architecture: all
+XBSC-Group: Libraries
+XBSC-SubGroup: Communication
+Depends: arduino
+Provides: HID.h
+Description: Generic HID emulation for Arduino
+ Emulate a generic HID device on a supported USB enabled develiopment board,
+ such as the Arduino Leonardo.
+
+Package: libsoftwareserial-arduino
+Architecture: all
+XBSC-Group: Libraries
+XBSC-SubGroup: Communication
+XBSC-SubSubgroup: Serial
+Depends: arduino
+Provides: SoftwareSerial.h
+Description: Arduino Software Serial
+ Primitive bit-banged serial emulation for Arduino boards
+
+Package: libspi-arduino
+Architecture: all
+XBSC-Group: Libraries
+XBSC-SubGroup: Communication
+XBSC-SubSubgroup: SPI
+Depends: arduino
+Provides: SPI.h
+Description: Arduino SPI Library
+ The standard Arduino SPI library
+
+Package: libwire-arduino
+Architecture: all
+XBSC-Group: Libraries
+XBSC-SubGroup: Communication
+XBSC-SubSubgroup: I2C
+Depends: arduino
+Provides: Wire.h
+Description: Arduino Wire Library
+ Connect I2C devices to an Arduino

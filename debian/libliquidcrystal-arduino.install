@@ -1,0 +1,4 @@
+libraries/LiquidCrystal/examples/ libraries/Display/arduino/LiquidCrystal
+libraries/LiquidCrystal/keywords.txt libraries/Display/arduino/LiquidCrystal
+libraries/LiquidCrystal/src/LiquidCrystal.cpp libraries/Display/arduino/LiquidCrystal
+libraries/LiquidCrystal/src/LiquidCrystal.h libraries/Display/arduino/LiquidCrystal

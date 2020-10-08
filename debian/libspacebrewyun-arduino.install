@@ -1,0 +1,3 @@
+libraries/SpacebrewYun/keywords.txt libraries/BoardSupport/arduino/SpacebrewYun
+libraries/SpacebrewYun/src/SpacebrewYun.cpp libraries/BoardSupport/arduino/SpacebrewYun
+libraries/SpacebrewYun/src/SpacebrewYun.h libraries/BoardSupport/arduino/SpacebrewYun

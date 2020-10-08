@@ -1,0 +1,8 @@
+libraries/Firmata/Boards.h libraries/Communications/arduino/Firmata
+libraries/Firmata/Firmata.cpp libraries/Communications/arduino/Firmata
+libraries/Firmata/Firmata.h libraries/Communications/arduino/Firmata
+libraries/Firmata/examples/ libraries/Communications/arduino/Firmata
+libraries/Firmata/extras/ libraries/Communications/arduino/Firmata
+libraries/Firmata/keywords.txt libraries/Communications/arduino/Firmata
+libraries/Firmata/test/ libraries/Communications/arduino/Firmata
+libraries/Firmata/utility/ libraries/Communications/arduino/Firmata

@@ -1,0 +1,11 @@
+libraries/WiFi/examples/ libraries/Communications/arduino/WiFi
+libraries/WiFi/keywords.txt libraries/Communications/arduino/WiFi
+libraries/WiFi/src/WiFi.cpp libraries/Communications/arduino/WiFi
+libraries/WiFi/src/WiFi.h libraries/Communications/arduino/WiFi
+libraries/WiFi/src/WiFiClient.cpp libraries/Communications/arduino/WiFi
+libraries/WiFi/src/WiFiClient.h libraries/Communications/arduino/WiFi
+libraries/WiFi/src/WiFiServer.cpp libraries/Communications/arduino/WiFi
+libraries/WiFi/src/WiFiServer.h libraries/Communications/arduino/WiFi
+libraries/WiFi/src/WiFiUdp.cpp libraries/Communications/arduino/WiFi
+libraries/WiFi/src/WiFiUdp.h libraries/Communications/arduino/WiFi
+libraries/WiFi/src/utility/ libraries/Communications/arduino/WiFi

@@ -1,0 +1,3 @@
+libraries/Keyboard/keywords.txt libraries/Communications/arduino/Keyboard
+libraries/Keyboard/src/Keyboard.cpp libraries/Communications/arduino/Keyboard
+libraries/Keyboard/src/Keyboard.h libraries/Communications/arduino/Keyboard

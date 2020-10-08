@@ -1,0 +1,3 @@
+libraries/Mouse/keywords.txt libraries/Communications/arduino/Mouse
+libraries/Mouse/src/Mouse.cpp libraries/Communications/arduino/Mouse
+libraries/Mouse/src/Mouse.h libraries/Communications/arduino/Mouse

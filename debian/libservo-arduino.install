@@ -1,0 +1,5 @@
+libraries/Servo/examples/ libraries/Motor/arduino/Servo
+libraries/Servo/keywords.txt libraries/Motor/arduino/Servo
+libraries/Servo/src/Servo.h libraries/Motor/arduino/Servo
+libraries/Servo/src/avr/Servo.cpp libraries/Motor/arduino/Servo
+libraries/Servo/src/avr/ServoTimers.h libraries/Motor/arduino/Servo/avr

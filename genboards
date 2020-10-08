@@ -1,0 +1,259 @@
+#!/usr/bin/php
+<?php
+
+$version = "1.2.0";
+
+$data = file_get_contents("avr/boards.txt");
+$lines = explode("\n", $data);
+
+$tree = array();
+
+system("rm -rf boards");
+
+foreach ($lines as $line) {
+    $line = trim($line);
+    if ($line == "") continue;
+    if (substr($line, 0, 1) == '#') continue;
+    
+    if (preg_match('/^\s*([^\s\.]+)\.([^\s]+)\s*=\s*(.*)/', $line, $m)) {
+        $tree[$m[1]][$m[2]] = $m[3];
+    }
+}
+
+$final = array();
+
+foreach ($tree as $board=>$data) {
+
+    if ($board == "menu") continue;
+    $fixedboard = strtolower($board);
+    $fixedboard = str_replace("_", "-", $fixedboard);
+    $fixedboard = "arduino-" . $fixedboard;
+
+    $final[$fixedboard]["name"] = $fixedboard;
+    $final[$fixedboard]["description"] = $data["name"];
+    $final[$fixedboard]["group"] = "Arduino";
+    $final[$fixedboard]["family"] = "avr";
+    $final[$fixedboard]["core"] = "arduino";
+
+    foreach ($data as $k=>$v) {
+        if (substr($k, 0, 6) == "build.") {
+            $final[$fixedboard][$k] = despace($v);
+        }
+        if (substr($k, 0, 7) == "upload.") {
+            $final[$fixedboard][$k] = despace($v);
+        }
+        if (substr($k, 0, 7) == "serial.") {
+            $final[$fixedboard][$k] = despace($v);
+        }
+    }
+
+    $options = subtree($data, "menu");
+    $menus = subkeys($options);
+/*
+    if (in_array("cpu", $menus)) {
+        $final[$fixedboard]["options.cpu.name"] = "Processor";
+        $final[$fixedboard]["upload.maximum_size"] = '${option:cpu.upload.maximum_size}';
+        $final[$fixedboard]["upload.maximum_data_size"] = '${option:cpu.upload.maximum_data_size}';
+        $final[$fixedboard]["upload.speed"] = '${option:cpu.upload.speed}';
+        $final[$fixedboard]["upload.protocol"] = '${option:cpu.upload.protocol}';
+        $final[$fixedboard]["bootloader.high_fuses"] = '${option:cpu.bootloader.high_fuses}';
+        $final[$fixedboard]["bootloader.extended_fuses"] = '${option:cpu.bootloader.extended_fuses}';
+        $final[$fixedboard]["bootloader.file"] = '${option:cpu.bootloader.file}';
+        $final[$fixedboard]["build.mcu"] = '${option:cpu.build.mcu}';
+
+        if ($fixedboard == 'arduino-pro') {
+            $final[$fixedboard]["build.f_cpu"] = '${option:cpu.build.f_cpu}';
+        }
+
+    }
+*/
+    foreach ($menus as $menu) {
+        $opts = subtree($options, $menu);
+        $last = null;
+        $first = true;
+        foreach ($opts as $opt=>$oval) {
+            $bits = explode(".", $opt);
+            if (count($bits) == 1) { // Name
+                if ($first) {
+                    $final[$fixedboard]["options." . $menu . ".default"] = $bits[0];
+                    $first = false;
+                }
+                $final[$fixedboard]["options." . $menu . "." . $bits[0] . ".name"] = $oval;
+            } else {
+                $oval = str_replace(" ", "::", $oval);
+                $oval = str_replace("\"", "", $oval);
+                $oval = str_replace("{", "\${", $oval);
+                $final[$fixedboard]["options." . $menu . "." . $opt] = $oval;
+
+                array_shift($bits);
+                $flags = implode('.', $bits);
+                $final[$fixedboard][$flags] = '${option:' . $menu . '.' . $flags . '}';
+            } 
+        }
+    }
+
+    $final[$fixedboard]["icon"] = 'arduino.png';
+    ksort($final[$fixedboard]);
+}
+
+@mkdir("boards");
+
+foreach ($final as $board=>$data) {
+    @mkdir("boards/" . $board);
+
+    $boardtxt = "";
+    foreach ($data as $k=>$v) {
+        $boardtxt .= "$k=$v\n";
+    }
+    file_put_contents("boards/" . $board . "/board.txt", $boardtxt);
+
+    $var = "avr/variants/" . $data['build.variant'];
+
+    $pins = file_get_contents($var. "/pins_arduino.h");
+    $pinlines = explode("\n", $pins);
+
+    $pout = array();
+
+    $hasstandard = false;
+    $hasleonardo = false;
+
+    foreach ($pinlines as $pl) {
+        if (preg_match('/#include(.*)\/standard\/pins_arduino.h/', $pl, $m)) {
+            $pl = "#include <standard.h>";
+            copy("avr/variants/standard/pins_arduino.h", "boards/" . $board . "/standard.h");
+            $hasstandard = true;
+        } else if (preg_match('/#include(.*)\/leonardo\/pins_arduino.h/', $pl, $m)) {
+            $pl = "#include <leonardo.h>";
+            copy("avr/variants/leonardo/pins_arduino.h", "boards/" . $board . "/leonardo.h");
+            $hasleonardo = true;
+        }
+        $pout[] = $pl;
+    }
+    file_put_contents("boards/" . $board . "/pins_arduino.h", implode("\n", $pout));
+
+    @mkdir("boards/" . $board . "/debian");
+    $control = array();
+    $control[] = 'Source: ' . $board;
+    $control[] = 'Section: main';
+    $control[] = 'Priority: extra';
+    $control[] = 'Maintainer: Matt Jenkins <matt@majenko.co.uk>';
+    $control[] = 'XBSC-TieCore: arduino';
+    $control[] = 'XBSC-Family: avr';
+    $control[] = 'Build-Depends: debhelper (>= 8.0.0)';
+    $control[] = 'Standards-Version: 3.9.4';
+    $control[] = '';
+    $control[] = 'Package: ' . $board;
+    $control[] = 'Architecture: all';
+    $control[] = 'XBSC-Group: Boards';
+    $control[] = 'XBSC-Subgroup: Arduino';
+    $control[] = 'XBSC-Subsubgroup: AVR';
+    $control[] = 'Depends: arduino';
+    $control[] = 'Description: ' . $data['description'];
+    file_put_contents("boards/" . $board . "/debian/control", implode("\n", $control));
+
+    $install = array();
+    $install[] = "board.txt boards/Arduino/" . $board;
+    $install[] = "pins_arduino.h boards/Arduino/" . $board;
+    $install[] = "arduino.png boards/Arduino/" . $board;
+    if ($hasstandard) {
+        $install[] = "standard.h boards/Arduino/" . $board;
+    }
+    if ($hasleonardo) {
+        $install[] = "leonardo.h boards/Arduino/" . $board;
+    }
+    file_put_contents("boards/" . $board . "/debian/" . $board . ".install", implode("\n", $install));
+
+    $rules = array();
+    $rules[] = "#!/usr/bin/make -f";
+    $rules[] = "";
+    $rules[] = "%:";
+    $rules[] = "\tdh $@";
+    file_put_contents("boards/" . $board . "/debian/rules", implode("\n", $rules));
+    chmod("boards/" . $board . "/debian/rules", 0755);
+
+    file_put_contents("boards/" . $board . "/debian/compat", "9");
+    @mkdir("boards/" . $board . "/debian/source");
+    file_put_contents("boards/" . $board . "/debian/source/format", "3.0 (native)");
+
+    $date = date("r");
+
+    $changelog = array();
+    $changelog[] = $board . " (" . $version . ") uecide; urgency=low";
+    $changelog[] = "";
+    $changelog[] = "  * Auto built from source";
+    $changelog[] = "";
+    $changelog[] = " -- Matt Jenkins <matt@majenko.co.uk>  " . $date;
+    file_put_contents("boards/" . $board . "/debian/changelog", implode("\n", $changelog));
+
+    copy("arduino.png", "boards/" . $board . "/arduino.png");
+
+    system("cd boards/" . $board . " && upkg-buildpackage -b");
+}
+
+function subkeys($tree) {
+    $keys = array();
+    foreach ($tree as $k=>$v) {
+        $bits = explode(".", $k);
+        $keys[$bits[0]] = 1;
+    }
+    $out = array();
+    foreach ($keys as $k=>$v) {
+        $out[] = $k;
+    }
+    return $out;
+}
+
+function subtree($tree, $key) {
+    $out = array();
+    $kdot = $key . ".";
+    foreach ($tree as $k=>$v) {
+        if (substr($k, 0, strlen($kdot)) == $kdot) {
+            $nk = substr($k, strlen($kdot));
+            $out[$nk] = $v;
+        }
+    }
+    return $out;
+}
+
+function despace($str) {
+    $inquote = false;
+    $inapos = false;
+    $out = "";
+    $letters = str_split($str);
+    foreach ($letters as $letter) {
+
+        if ($letter == "{") {
+            $out .= "\${";
+            continue;
+        }
+
+        if ($letter == " ") {
+            if ($inquote || $inapos) {
+                $out .= $letter;
+            } else {
+                $out .= "::";
+            }
+            continue;
+        }
+
+        if ($letter == "'") {
+            if (!$inquote) {
+                $inapos = !$inapos;
+            }
+            $out .= $letter;
+            continue;
+        }
+
+        if ($letter == '"') {
+            if (!$inapos) {
+                $inquote = !$inquote;
+            }
+            $out .= $letter;
+            continue;
+        }
+        
+        $out .= $letter;
+    }
+    return $out;
+
+}

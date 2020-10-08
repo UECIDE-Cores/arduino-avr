@@ -1,0 +1,4 @@
+libraries/Stepper/examples/ libraries/Motor/arduino/Stepper
+libraries/Stepper/keywords.txt libraries/Motor/arduino/Stepper
+libraries/Stepper/src/Stepper.cpp libraries/Motor/arduino/Stepper
+libraries/Stepper/src/Stepper.h libraries/Motor/arduino/Stepper

@@ -1,0 +1,19 @@
+name=arduino
+description=Arduino 1.8.1
+compiler=avr-gcc
+family=avr
+
+core.header=Arduino.h
+core.version=10812
+core.library.arduino=arduino
+
+core.flags=-g::-Os::${compiler.warning_flags}::-ffunction-sections::-fdata-sections::-MMD::-flto::-DF_CPU=${build.f_cpu}::-DARDUINO=${core.version}::-D${build.board}::-DARDUINO_ARCH_AVR::-mmcu=${build.mcu}::${build.extra_flags}
+core.cppflags=-std=gnu++11::-fpermissive::-fno-exceptions::-fno-threadsafe-statics::-Wno-error=narrowing
+core.cflags=-std=gnu11::-fno-fat-lto-objects
+core.asflags=-x::assembler-with-cpp
+core.ldflags=-fuse-linker-plugin::-Wl,--gc-sections
+
+build.usb_manufacturer="Unknown"
+build.usb_flags=-DUSB_VID=${build.vid}::-DUSB_PID=${build.pid}::-DUSB_MANUFACTURER=${build.usb_manufacturer}::-DUSB_PRODUCT=${build.usb_product}
+
+icon=arduino.png

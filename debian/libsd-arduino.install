@@ -1,0 +1,6 @@
+libraries/SD/examples/ libraries/Storage/arduino/SD
+libraries/SD/keywords.txt libraries/Storage/arduino/SD
+libraries/SD/src/File.cpp libraries/Storage/arduino/SD
+libraries/SD/src/SD.cpp libraries/Storage/arduino/SD
+libraries/SD/src/SD.h libraries/Storage/arduino/SD
+libraries/SD/src/utility/ libraries/Storage/arduino/SD

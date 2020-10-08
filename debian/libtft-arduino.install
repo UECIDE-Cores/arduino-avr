@@ -1,0 +1,5 @@
+libraries/TFT/examples/ libraries/Display/arduino/TFT
+libraries/TFT/keywords.txt libraries/Display/arduino/TFT
+libraries/TFT/src/TFT.cpp libraries/Display/arduino/TFT
+libraries/TFT/src/TFT.h libraries/Display/arduino/TFT
+libraries/TFT/src/utility/ libraries/Display/arduino/TFT

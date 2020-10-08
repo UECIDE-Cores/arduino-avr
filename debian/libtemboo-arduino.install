@@ -1,0 +1,10 @@
+libraries/Temboo/examples/ libraries/Communications/arduino/Temboo
+libraries/Temboo/keywords.txt libraries/Communications/arduino/Temboo
+libraries/Temboo/src/Temboo.cpp libraries/Communications/arduino/Temboo
+libraries/Temboo/src/Temboo.h libraries/Communications/arduino/Temboo
+libraries/Temboo/src/TembooCoAPEdgeDevice.cpp libraries/Communications/arduino/Temboo
+libraries/Temboo/src/TembooCoAPEdgeDevice.h libraries/Communications/arduino/Temboo
+libraries/Temboo/src/TembooMQTTEdgeDevice.cpp libraries/Communications/arduino/Temboo
+libraries/Temboo/src/TembooMQTTEdgeDevice.h libraries/Communications/arduino/Temboo
+libraries/Temboo/src/TembooYunShield.h libraries/Communications/arduino/Temboo
+libraries/Temboo/src/utility/ libraries/Communications/arduino/Temboo
